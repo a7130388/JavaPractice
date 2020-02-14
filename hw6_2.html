@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>練習題6_2</title>
+    <script type="text/javascript">
+    
+    window.onload=function(){
+        var table = document.getElementById("table");
+        table.rows[0].style.display= 'none';
+        table.rows[1].style.display= 'none';
+    }
+    function Calender(){
+        var table = document.getElementById("table");
+        var year = document.getElementById("year").value;
+        var month = document.getElementById("month").value;
+        document.getElementById("year_str").innerText=year;
+        document.getElementById("month_str").innerText=month;
+        if(month>0 && month<=12 && year!=" " && month!=" "){
+            var flag = (year%4 ==0) && (year % 100!= 0) || (year%400==0);
+            var day_count=[31,flag?29:28,31,30,31,30,31,31,30,31,30,31];
+            var dt = new Date();
+            dt.setFullYear(year);
+            dt.setMonth(month-1);
+            dt.setDate(1);
+            var week=dt.getDay();
+            var cells=day_count[month-1]+week;
+            var row=Math.ceil(cells/7);
+            var count=0;
+
+            while(table.rows.length>2){
+                table.deleteRow(2);
+            }
+
+            for(var i=2;i<=row+2;i++){
+                var tr=table.insertRow(i);
+                for(var j =0;j<7;j++){
+                    var cell=tr.insertCell(j)
+                    count++;
+                    if(count<=week || count>cells){
+                        cell.innerHTML = ' ';                        
+                    }else{
+                        cell.innerHTML = count-week;  
+                    }
+                }
+            }
+            table.rows[0].style.display= ''; 
+            table.rows[1].style.display= ''; 
+
+
+        }else{
+            alert("請輸入正確年月份!!!");
+        }
+    }
+    function Clean(){
+        var table = document.getElementById("table");
+        while(table.rows.length>2){
+            table.deleteRow(2);            
+        }
+        table.rows[0].style.display= 'none';
+        table.rows[1].style.display= 'none';
+        document.getElementById("year").value=' ';
+        document.getElementById("month").value=' ';
+    }
+    
+    
+    
+    
+    
+    </script>
+</head>
+<body>
+<div>
+    <p>年月輸入:</p>
+    <p>年:
+        <input id="year" type="text">
+    </p>
+    <p>月:
+        <input id="month" type="text">
+    </p>
+    <p>
+        <button type="button" onclick="Calender()">確定</button>
+        <button type="button" onclick="Clean()">清除</button>
+    </p>
+    <table id="table">
+        <thead>
+            <tr>
+                <td colspan="7" align="center">
+                    <span id="year_str"></span>年
+                    <span id="month_str"></span>月
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <span><td>日</td><td>一</td><td>二</td><td>三</td><td>四</td><td>五</td><td>六</td></span>
+            </tr>
+        </tbody>
+    </table>
+</div>    
+</body>
+</html>

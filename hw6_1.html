@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>練習題6_1</title>
+    <script type="text/javascript">
+    
+
+    function Throw(){
+        var table = document.getElementById("table");
+        var diceshape = document.getElementById("diceshape").value;
+        var dicenum = document.getElementById("dicenum").value;
+        var times = document.getElementById("times").value;
+        var point = diceshape*dicenum;
+ 
+       
+        let timesMap = new Map();
+        while(table.rows.length>1){
+            table.deleteRow(1);            
+        }
+        for(var i=0;i<times;i++){
+            var cstar = 0;
+            while(cstar<dicenum){
+                cstar = Math.floor(Math.random() * point) + 1;
+            } 
+            if(timesMap.has(cstar)){               
+                timesMap.set(cstar, timesMap.get(cstar)+1);
+            }else{               
+                timesMap.set(cstar, 1);
+            }
+        }
+       
+        for(var i =1;i<point+1;i++){
+            if(timesMap.has(i)){                
+                var star = '';
+                for(var j=0;j<timesMap.get(i);j++){
+                    star = star + '<td bgcolor="red">*</td>';
+                }
+                var data = '<tr><td>'+i+'</td><td>'+timesMap.get(i)+'</td>'+star;
+                document.getElementById('bodyshow').insertAdjacentHTML('beforeend', data);               
+            }            
+
+        }
+
+    }
+ 
+    </script>
+</head>
+<body>
+<div>
+    <p>請選擇骰子面數:
+        <select id="diceshape">
+            <option value="1">1面</option>
+            <option value="2">2面</option>
+            <option value="3">3面</option>
+            <option value="4">4面</option>
+            <option value="5">5面</option>
+            <option value="6">6面</option>
+        </select>
+        請輸入骰子數量:
+        <input id="dicenum" >
+        請輸入要丟擲幾次:
+        <input id="times">
+    </p>
+    
+    <p>
+        <button type="button" onclick="Throw()">擲出</button>       
+    </p>
+    <table id="table">
+        <thead>
+            <tr>
+                <td >Total                  
+                </td>
+                <td >Times                  
+                </td>
+            </tr>
+        </thead>
+        <tbody id="bodyshow">
+           
+        </tbody>
+    </table>
+</div>    
+</body>
+</html>
